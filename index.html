@@ -69,24 +69,33 @@
     </form>
 
     <section id="error-btns">
-      <button>Console Log</button>
-      <button>Console Error</button>
-      <button>Console Count</button>
-      <button>Console Warn</button>
-      <button>Console Assert</button>
-      <button>Console Clear</button>
-      <button>Console Dir</button>
-      <button>Console dirxml</button>
-      <button>Console Group Start</button>
-      <button>Console Group End</button>
-      <button>Console Table</button>
-      <button>Start Timer</button>
-      <button>End Timer</button>
-      <button>Console Trace</button>
-      <button>Trigger a Global Error</button>
+      <button onclick="conLog()" >Console Log</button>
+      <button onclick="conErr()">Console Error</button>
+      <button onclick="counts()">Console Count</button>
+      <button onclick="conWarn()">Console Warn</button>
+      <button onclick="assert()">Console Assert</button>
+      <button onclick="clearAll()">Console Clear</button>
+      <button onclick="conDir()">Console Dir</button>
+      <button onclick="conDirxml()" >Console dirxml</button>
+      <button onclick="groupStart()">Console Group Start</button>
+      <button onclick="groupEnd()">Console Group End</button>
+      <button onclick="conTable()">Console Table</button>
+      <button onclick="strTime()">Start Timer</button>
+      <button onclick="endTime()">End Timer</button>
+      <button onclick="conTrace()">Console Trace</button>
+      <button onclick="globalErr()">Trigger a Global Error</button>
     </section>
   </main>
 
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+  <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "a0bddd3666034740a98c6c5d0d29b0ed"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+    TrackJS.track('Testing TrackJS!');
+  </script>
+                        
   <script>
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
@@ -102,6 +111,92 @@
 
     // Start your code here
     // You may move this JS to another file if you wish
+    let i = 0;
+    function conLog() {
+      console.log("Console Log demo");
+    }
+    function conErr() {
+      console.error("Console Error demo");
+    }
+    function counts(){
+      i = i+1;
+      console.log("Count button: ", i );
+    }
+    function conWarn(){
+      console.warn("Console Warn Button");
+    }
+    function assert(){
+      let number = 2; 
+      const errorMsg = "The number does not equal 3";
+      let bol = Boolean(2 == 3 );
+      console.assert(bol, {number, errorMsg});
+    }
+    function clearAll(){
+      console.clear();
+    }
+    function conDir(){
+      console.dir(document.getElementsByTagName('button')[7]);
+    }
+    function conDirxml() {
+      console.dirxml(document.getElementsByTagName('button')[8]);
+    }
+    function groupStart(){
+      console.group();
+    }
+    function groupEnd(){
+      console.groupEnd();
+    }
+    function conTable(){
+      const classes = [
+        ["CSE 101", "Algorithms"],
+        ["COGS 108", "Data Science in Practice"],
+        ["CSE 110", "Software Engineering"]
+      ];
+      console.table(classes);
+    }
+    function strTime(){
+      console.time("Timer button");
+    }
+    function endTime(){
+      console.timeEnd("Timer button");
+    }
+    function conTrace(){
+      deep();
+    }
+    function deep(){
+      deeper();
+    }
+    function deeper(){
+      deepest();
+    }
+    function deepest(){
+      console.trace();
+    }
+
+    function globalErr(){
+      try{
+        boom(); // this is a noe defined function should through error 
+      }catch(e){
+        throw new ValidationError(e);
+      }finally{
+        let x = "you made it !" ;
+        // console.log(x); this works but i didnt like seeing many comments in the console. this is why I commented it 
+      }
+    }
+    window.onerror = function() {
+      // Code to run when an error has occurred on the page
+      console.log("Sadly an error happened my friend");
+      }
+
+    //STEP 4: custom error 
+    class ValidationError extends Error {
+      constructor(message) {
+        super(message); 
+        console.log("An error has happened:( ");
+      }
+    }    
+
+
   </script>
 </body>
 
